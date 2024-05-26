@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Input Form</title>
+</head>
+<body>
+    <h1>User Input Form</h1>
+    <form id="inputForm">
+        <label for="userInput">Enter your input:</label><br><br>  <!-- Input to game stealer -->
+        <input type="text" id="userInput" name="userInput" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <script> 
+        document.getElementById('inputForm').addEventListener('submit', function(event) {  
+            event.preventDefault(); 
+            const userInput = document.getElementById('userInput').value;
+            fetch('/submit', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ input: userInput }),
+            })
+            .then(response => response.json()) 
+            .then(data => {
+                alert('Input submitted successfully: ' + data.input);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
